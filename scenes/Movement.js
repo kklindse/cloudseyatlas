@@ -47,13 +47,28 @@ class Movement extends Phaser.Scene {
             yoyo: true
         });
 
+        this.anims.create({
+            key: 'idle_down',
+            frames: this.anims.generateFrameNames('link_atlas', {
+                prefix: 'idle_down_',
+                start: 1,
+                end: 3,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 15,
+            repeat: -1,
+            repeatDelay: 5000,
+            yoyo: true
+        });
+
         // Run left
         this.anims.create({
             key: 'run_left',
             frames: this.anims.generateFrameNames('link_atlas', {
                 prefix: 'run_left_',
                 start: 1,
-                end: 3,
+                end: 10,
                 suffix: '',
                 zeroPad: 4
             }),
@@ -68,7 +83,33 @@ class Movement extends Phaser.Scene {
             frames: this.anims.generateFrameNames('link_atlas', {
                 prefix: 'run_right_',
                 start: 1,
-                end: 3,
+                end: 10,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 30,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'run_up',
+            frames: this.anims.generateFrameNames('link_atlas', {
+                prefix: 'run_up_',
+                start: 1,
+                end: 10,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 30,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'run_down',
+            frames: this.anims.generateFrameNames('link_atlas', {
+                prefix: 'run_down_',
+                start: 1,
+                end: 10,
                 suffix: '',
                 zeroPad: 4
             }),
@@ -106,16 +147,29 @@ class Movement extends Phaser.Scene {
             this.player.body.setVelocityX(this.VELOCITY);
             this.player.anims.play('run_right', true);
 
-        } else if (!cursors.right.isDown && !cursors.left.isDown) {
+        } else if(cursors.up.isDown) {
+            this.player.body.setVelocityX(0);
+            this.player.anims.play('run_up', true);
+
+        } else if(cursors.down.isDown) {
+            this.player.body.setVelocityX(0);
+            this.player.anims.play('run_down', true);
+
+        }
+        
+        else if (!cursors.right.isDown && !cursors.left.isDown && !cursors.up.isDown && !cursors.down.isDown) {
             this.player.body.setVelocityX(0);
             // add code for idle animation play here:
             if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'run_left') {
                 this.player.anims.play('idle_left');
            } else if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'run_right') {
             this.player.anims.play('idle_right');
-       }
-
-            
+            } else if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'run_up') {
+                this.player.play('idle_up');
+            } else if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'run_down') {
+                this.player.anims.play('idle_down');
+            }
+                      
         }
 
         // wrap physics object(s) .wrap(gameObject, padding)
