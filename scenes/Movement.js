@@ -48,6 +48,19 @@ class Movement extends Phaser.Scene {
         });
 
         this.anims.create({
+            key: 'idle_up',
+            frames: this.anims.generateFrameNames('link_atlas', {
+                prefix: 'idle_up_',
+                start: 1,
+                end: 1,
+                suffix: '',
+                zeroPad: 4
+            }),
+            frameRate: 15,
+            repeat: -1,
+        });
+
+        this.anims.create({
             key: 'idle_down',
             frames: this.anims.generateFrameNames('link_atlas', {
                 prefix: 'idle_down_',
@@ -165,7 +178,7 @@ class Movement extends Phaser.Scene {
            } else if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'run_right') {
             this.player.anims.play('idle_right');
             } else if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'run_up') {
-                this.player.play('idle_up');
+                this.player.anims.play('idle_up');
             } else if (this.player.anims.isPlaying && this.player.anims.currentAnim.key === 'run_down') {
                 this.player.anims.play('idle_down');
             }
